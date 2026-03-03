@@ -1,0 +1,22 @@
+name: Trigger Reminder Cron Every 5 Minutes
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-cron:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger cron-5min.php
+        run: |
+          curl -X GET "https://serwer2589028.home.pl/recreation/Reminder/cron-5min.php" \
+            -H "User-Agent: GitHub-Actions-Cron"
+      
+      - name: Notify Slack on failure
+        if: failure()
+        run: |
+          curl -X POST YOUR_SLACK_WEBHOOK_URL \
+            -d '{"text":"❌ Reminder cron failed!"}'
