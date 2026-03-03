@@ -1,0 +1,15 @@
+# Composer dependencies
+/vendor/
+composer.lock
+
+# Logs (keep the directory, ignore log files)
+/logs/*.log
+
+# Environment files
+.env
+.env.*
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp

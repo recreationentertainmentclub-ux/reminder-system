@@ -1,0 +1,25 @@
+{
+    "name": "recreationentertainmentclub-ux/reminder-system",
+    "description": "PHP-based reminder system that sends email notifications via SmartSender API",
+    "type": "project",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ReminderSystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ReminderSystem\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

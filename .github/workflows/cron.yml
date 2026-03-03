@@ -1,0 +1,41 @@
+name: Send Reminder Notifications
+
+on:
+  schedule:
+    # Runs every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # Allow manual trigger for testing
+
+permissions:
+  contents: read
+
+jobs:
+  send-reminders:
+    name: Process pending reminders
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_mysql, curl
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run reminder cron job
+        env:
+          DB_HOST:              ${{ secrets.DB_HOST }}
+          DB_PORT:              ${{ secrets.DB_PORT }}
+          DB_NAME:              ${{ secrets.DB_NAME }}
+          DB_USER:              ${{ secrets.DB_USER }}
+          DB_PASSWORD:          ${{ secrets.DB_PASSWORD }}
+          SMARTSENDER_API_URL:  ${{ secrets.SMARTSENDER_API_URL }}
+          SMARTSENDER_API_KEY:  ${{ secrets.SMARTSENDER_API_KEY }}
+          APP_TIMEZONE:         ${{ secrets.APP_TIMEZONE }}
+        run: php cron/send_reminders.php
